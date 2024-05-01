@@ -3,7 +3,7 @@ import streamlit as st
 import os
 
 st.title("Justice AI")
-client = OpenAI(os.getenv("OPENAI_API_KEY"))
+client = OpenAI(st.secrets["openai_api_key"])
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
