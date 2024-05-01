@@ -27,12 +27,8 @@ for question in default_questions:
     if st.button(question):
         default_ques = True
         if "messages" not in st.session_state:
-            st.session_state.messages = []
-
-        if "messages" not in st.session_state:
             st.session_state.messages = [
-                {"role": "system", "content": "You are a legal AI assistant that will be used by legal and non-legal professionals for any kind of legal, compliance and regulatory questions. Help them with their queries."}]
-
+        {"role": "system", "content": "You are a legal AI assistant that will be used by legal and non-legal professionals for any kind of legal, compliance and regulatory questions. Help them with their queries."}]
 
 
         st.session_state.messages.append({"role": "user", "content": question})
@@ -55,9 +51,14 @@ for question in default_questions:
 if not default_ques:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+            if message["role"] != "system":
+                st.markdown(message["content"])
 
 if prompt := st.chat_input("What is up?"):
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {"role": "system", "content": "You are a legal AI assistant that will be used by legal and non-legal professionals for any kind of legal, compliance and regulatory questions. Help them with their queries."}
+        ]
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
